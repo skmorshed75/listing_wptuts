@@ -183,3 +183,30 @@ if ( ! function_exists( 'hello_elementor_body_open' ) ) {
 		}
 	}
 }
+
+/*
+    Custom image sizes
+*/
+
+add_action('after_setup_theme', 'images_setup');
+
+function images_setup() {
+
+    add_theme_support('post-thumbnails');
+
+    if (function_exists('add_image_size')) {
+        add_image_size('blog_post', 450,300);
+    }
+    // Getting these sizes to appear in the media section within wordpress
+    add_filter('image_size_names_choose', 'my_custom_image_sizes');
+
+    function my_custom_image_sizes($sizes) {
+        $custom_sizes = array(
+            //'custom-post-thumbnail' => 'Custom Post Thumbnail',
+            'blog_post' => __('Blog Post')
+        );
+
+        return array_merge($sizes, $custom_sizes);
+    }
+
+}
